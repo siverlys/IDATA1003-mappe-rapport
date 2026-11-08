@@ -1,28 +1,10 @@
-name: Build Typst PDF
-
-on:
-  push:
-    branches: [ main ]
-
+name: Render paper.pdf
+on: push
 jobs:
-  build:
+  render-paper:
     runs-on: ubuntu-latest
-    
     steps:
-      - name: Sjekk ut kode
-        uses: actions/checkout@v4
-
-      - name: Installer Typst
-        uses: taiki-e/install-action@v2
-        with:
-          tool: typst
-
-      - name: Kompiler Typst til PDF
-        run: |
-          typst compile main.typ rapport.pdf
-
-      - name: Last opp PDF som Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: compiled-pdf
-          path: rapport.pdf
+      - uses: actions/checkout@v7
+      - uses: typst-community/setup-typst@v5
+      # 🎉 Now Typst is installed!
+      - run: typst compile main.typ rapport.pdf
