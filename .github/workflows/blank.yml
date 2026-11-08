@@ -1,0 +1,28 @@
+name: Build Typst PDF
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Sjekk ut kode
+        uses: actions/checkout@v4
+
+      - name: Installer Typst
+        uses: taiki-e/install-action@v2
+        with:
+          tool: typst
+
+      - name: Kompiler Typst til PDF
+        run: |
+          typst compile main.typ rapport.pdf
+
+      - name: Last opp PDF som Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: compiled-pdf
+          path: rapport.pdf
